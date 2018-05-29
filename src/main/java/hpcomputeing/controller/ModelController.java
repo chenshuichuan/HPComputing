@@ -1,0 +1,148 @@
+package hpcomputeing.controller;/**
+ * Created by:Ricardo
+ * Description:
+ * Date: 2018/5/23
+ * Time: 11:30
+ */
+
+import hpcomputeing.entities.Cluster;
+import hpcomputeing.entities.PieChartsParam;
+import hpcomputeing.entities.Stock;
+import hpcomputeing.entities.Zuhe;
+import hpcomputeing.service.IndexService;
+import hpcomputeing.tools.DateAndString;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ *@ClassName: ModelController
+ *@Description: TODO
+ *@Author: Ricardo
+ *@Date: 2018/5/23 11:30
+ **/
+@RestController
+public class ModelController {
+
+    private final static Logger logger = LoggerFactory.getLogger(ModelController.class);
+
+    @Autowired
+    private IndexService indexService;
+
+    @RequestMapping(value="/model.html", method= RequestMethod.GET)
+    public ModelAndView modelView(){
+        //@RequestParam("modelName")String modelName
+        String model = "model1";
+        //String model = modelName;
+
+        List<Zuhe>zuheList = indexService.getZuheByModel(model);
+        List<Stock> paramList = indexService.getParamByModel(model);
+        List<Cluster> clusterList = indexService.getClusterByModel(model);
+        List<Zuhe> clusterZuheList = new ArrayList<>();
+
+        List<PieChartsParam> pieChartsParamList =
+                calPieChartsParamAndTurnZuhe(clusterList,clusterZuheList);
+        valifyModel(model);
+
+        ModelAndView modelAndView = new ModelAndView("model");
+
+        modelAndView.addObject("model", model);
+        //modelAndView.addObject("paramList", paramList);
+        String startDate = null;
+        for(Stock param :paramList){
+            switch (param.getId()){
+                case "股票数量":
+                    System.out.println(param.getId()+"="+param.getName());
+                    int stock_size = Integer.parseInt(param.getName());
+                    modelAndView.addObject("stock_size", stock_size);
+                    break;
+                case "起始日期":
+                    System.out.println(param.getId()+"="+param.getName());
+                    startDate = param.getName();
+                    modelAndView.addObject("start_date", param.getName());
+                    break;
+                case "所需天数":
+                    System.out.println(param.getId()+"="+param.getName());
+                    /*先转化为结束日期 再送出去*/
+                    if(startDate == null)logger.error("起始日期为null，结束日期无法得到！");
+                    String end_date = DateAndString.calculateEndDates(startDate,param.getName());
+
+                    System.out.println("结束日期="+end_date);
+                    modelAndView.addObject("end_date", end_date);
+                    break;
+                case "聚类族数":
+                    System.out.println(param.getId()+"="+param.getName());
+                    modelAndView.addObject("cluster_size", param.getName());
+                    break;
+                case "预测天数":
+                    System.out.println(param.getId()+"="+param.getName());
+                    modelAndView.addObject("predict_dates", param.getName());
+                    break;
+            }
+        }
+
+        modelAndView.addObject("zuheList", zuheList);
+        modelAndView.addObject("pieChartsParamList", pieChartsParamList);
+
+        modelAndView.addObject("all_stock_size", clusterZuheList.size());
+        System.out.println("all_stock_size="+ clusterZuheList.size());
+        modelAndView.addObject("clusterZuheList", clusterZuheList);
+
+        return modelAndView;
+    }
+
+    /*
+   * 检测是否存在该模型文件*/
+    private boolean valifyModel(String model){
+
+        boolean flag = false;
+        List<String> modelList =  indexService.getModels();
+        for (String str: modelList){
+            if(str == model)flag=true;
+        }
+        if(flag==false){
+            logger.debug(model+"，valifyModel=FALSE,不存在该模型，请检查数据文件");
+        }
+        return flag;
+    }
+
+    /*
+   * 根据所有聚类，计算各个聚类含有股票的比例，以及将所有聚类转换为Zuhe的形式*/
+    private List<PieChartsParam> calPieChartsParamAndTurnZuhe(List<Cluster> clusterList, List<Zuhe> clusterZuheList){
+
+        if (clusterZuheList == null)throw new NullPointerException ("clusterZuheList 不能为null！");
+        int totalNum  = 0;
+        List<PieChartsParam> pieChartsParamList = new ArrayList<>();
+        for (Cluster cluster:clusterList){
+            //计算piechart的参数
+            String name ="第"+cluster.getId()+"聚类";
+            pieChartsParamList.add(new PieChartsParam(cluster.getStockList().size(),name));
+            totalNum += cluster.getStockList().size();
+
+            //转换为Zuhe类别
+            for (Stock stock: cluster.getStockList()){
+                clusterZuheList.add(new Zuhe(cluster.getId(),stock.getId(),stock.getName()));
+            }
+        }
+        return pieChartsParamList;
+    }
+
+//    @RequestMapping(value="/model.html", method= RequestMethod.GET)
+//    public ModelAndView modelView(@RequestParam("model") String model){
+//        List<String> models =indexService.getModels();
+//        valifyModel(model);
+//        ModelAndView modelAndView = new ModelAndView("model");
+//        modelAndView.addObject("models", models);
+//        modelAndView.addObject("model", model);
+//        return modelAndView;
+//    }
+
+
+
+}

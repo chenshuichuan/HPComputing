@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="keywords"
+          content="admin, dashboard, bootstrap, template, flat, modern, theme, responsive, fluid, retina, backend, html5, css, css3">
+    <meta name="description" content="股票金融风险预测平台">
+    <meta name="author" content="ThemeBucket">
+    <link rel="shortcut icon" href="../static/images/invoice-logo.jpg"
+          th:href="@{images/invoice-logo.jpg}" type="image/png">
+    <title>股票金融风险预测平台</title>
+
+    <!--pickers css-->
+    <link rel="stylesheet" type="text/css" th:href="@{plugins/bootstrap-datepicker/css/datepicker-custom.css}"/>
+    <!--slider css-->
+    <link rel="stylesheet" type="text/css" th:href="@{css/jquery-ui-1.10.3.css}"/>
+    <!--dynamic table-->
+    <link th:href="@{plugins/advanced-datatable/css/demo_page.css}"  rel="stylesheet"/>
+    <link th:href="@{plugins/advanced-datatable/css/demo_table.css}" rel="stylesheet"/>
+    <link th:href="@{plugins/data-tables/DT_bootstrap.css}"/>
+
+    <!--common-->
+    <link th:href="@{css/style.css}" rel="stylesheet">
+    <link th:href="@{css/style-responsive.css}" rel="stylesheet">
+    <link th:href="@{css/mystyle.css}" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script th:src="@{js/html5shiv.js}"></script>
+    <script th:src="@{js/respond.min.js}"></script>
+    <![endif]-->
+    <!--##################################3##########################################-->
+    <!--pickers css-->
+    <link rel="stylesheet" type="text/css" href="../static/plugins/bootstrap-datepicker/css/datepicker-custom.css"/>
+    <!--slider css-->
+    <link rel="stylesheet" type="text/css" href="../static/css/jquery-ui-1.10.3.css"/>
+
+    <!--dynamic table-->
+    <link href="../static/plugins/advanced-datatable/css/demo_page.css"  rel="stylesheet"/>
+    <link href="../static/plugins/advanced-datatable/css/demo_table.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../static/plugins/data-tables/DT_bootstrap.css"/>
+
+    <!--common-->
+    <link href="../static/css/style.css" rel="stylesheet">
+    <link href="../static/css/style-responsive.css" rel="stylesheet">
+    <link href="../static/css/mystyle.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="../static/js/html5shiv.js"></script>
+    <script src="../static/js/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body class="sticky-header">
+<section>
+    <!-- left side start-->
+    <div class="left-side sticky-left-side"  th:include="left_side_template :: leftside"></div>
+    <!-- left side end-->
+
+    <!-- main content start-->
+    <div class="main-content">
+
+        <!-- header section start-->
+        <div class="header-section" style="border-bottom: rgba(0,0,0,0.39) solid 1px;">
+            <!--toggle button start-->
+            <a class="toggle-btn"><i class="fa fa-bars"></i></a>
+            <!--toggle button end-->
+            <!--title start-->
+            <div style="width: 80%;margin-top: 15px;text-align: center;">
+                <span style="font-size:30px;margin-left: 200px;">股票金融风险预测平台</span>
+                <div id="click" style="float:right;"></div>
+            </div>
+            <!--title end-->
+        </div>
+        <!-- header section end-->
+
+        <!--body wrapper start-->
+        <div class="wrapper">
+
+            <!--预测参数 start-->
+            <div class="row">
+                <div class="col-md-12">
+                    <!--param setting start-->
+                    <section class="panel">
+                        <header class="panel-heading">
+                            预测参数设置
+                            <span class="tools pull-right">
+                                <a class="fa fa-chevron-down" href="javascript:;"></a>
+                            </span>
+                        </header>
+                        <div class="panel-body">
+                            <div class="panel-body">
+                                <div class="col-md-7">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="row">
+                                                <div class="col-md-5"
+                                                     style="position: relative;transform: translateY(20%);text-align: right;">
+                                                    <label>股票数量:</label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <input type="text" id="amount" class="form-control">
+                                                    <div id="slider-range-max"></div>
+                                                </div>
+                                            </div>
+                                            <div class="row next_param">
+                                                <div class="col-md-5">
+
+                                                </div>
+                                                <div class="col-md-7">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="row">
+                                                <div class="col-md-5"
+                                                     style="position: relative;transform: translateY(20%);text-align: right;">
+                                                    <label>起始日期:</label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <input class="form-control default-date-picker" size="16"
+                                                           type="text" value="" readonly/>
+                                                </div>
+                                            </div>
+                                            <div class="row next_param">
+                                                <div class="col-md-5"
+                                                     style="position: relative;transform: translateY(20%);text-align: right;">
+                                                    <label>结束日期:</label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <input class="form-control default-date-picker" size="16"
+                                                           type="text" value="" readonly/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="row">
+                                                <div class="col-md-5">
+                                                    <label>聚类族数:</label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <input type="text" class="form-control"
+                                                           placeholder="15">
+                                                </div>
+                                            </div>
+                                            <div class="row next_param">
+                                                <div class="col-md-5">
+                                                    <label>预测天数:</label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <input type="text" class="form-control"
+                                                           placeholder="10">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-5" style="margin-top: 20px;">
+                                    <button class="btn btn-primary btn-lg" type="button">开始预测</button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <!--param setting end-->
+                </div>
+            </div>
+            <!--预测参数 end-->
+
+            <!--Striped Progress Bars start-->
+            <div class="row" style="visibility: hidden;">
+                <div class="col-md-3"></div>
+                <div class="col-md-6" style="text-align: center;">
+                    <div>正在<span>加载数据</span></div>
+                    <div class="progress progress-striped active progress-sm"
+                         style="background-color: rgba(0,0,0,0.45);">
+                        <div style="width: 45%;" aria-valuemax="100" aria-valuemin="0" aria-valuenow="45"
+                             role="progressbar" class="progress-bar progress-bar-success">
+                            <span class="sr-only">45% Complete</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+            <!--Striped Progress Bars end-->
+            <!--最优组合结果 start-->
+            <div class="row">
+                <div class="col-md-4">
+                    <!--more statistics box start-->
+                    <div class="panel" style="background-color: #000000;height: 530px;">
+                        <div class="panel-body" >
+                            <p style="padding-left:5px;color: #ffffff;font-size: 16px;">最优组合结果</p>
+                            <section class="panel">
+                                <div class="panel-body stockListPanel">
+                                    <table class="table table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>聚类类别</th>
+                                            <th>股票代码</th>
+                                            <th>股票名称</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody >
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Mark</td>
+                                            <td>Otto</td>
+                                            <td>@mdo</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>Jacob</td>
+                                            <td>Thornton</td>
+                                            <td>@fat</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td colspan="2">Larry the Bird</td>
+                                            <td>@twitter</td>
+                                        </tr>
+                                        <tr>
+                                            <td>4</td>
+                                            <td>Jane Doe</td>
+                                            <td>Mosa</td>
+                                            <td>@twitter</td>
+                                        </tr>
+                                        <tr>
+                                            <td>5</td>
+                                            <td>Jane Doe</td>
+                                            <td>Mosa</td>
+                                            <td>@twitter</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </section>
+
+                            <div id="echart-piecchart"
+                                 style="min-width:200px;height:200px;margin-top: 20px;" ></div>
+
+                        </div>
+                    </div>
+                    <!--more statistics box end-->
+                </div>
+                <div class="col-md-8">
+                    <div class="panel" style="background-color: rgba(0,0,0,0.45);">
+                        <div class="panel-body">
+                            <div id="echarts-div" style="min-width:500px;height:500px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--最优组合结果 end-->
+
+            <!--所有股票聚类结果 start-->
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <section class="panel">
+                                <header class="panel-heading">
+                                    所有聚类结果
+                                    <span class="tools pull-right">
+                <a href="javascript:;" class="fa fa-chevron-down"></a>
+             </span>
+                                </header>
+                                <div class="panel-body">
+                                    <div class="adv-table">
+                                        <table class="display table table-bordered table-striped" id="dynamic-table">
+                                            <thead>
+                                            <tr>
+                                                <th>聚类类别</th>
+                                                <th>股票代码</th>
+                                                <th>股票名称</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr class="gradeX">
+                                                <td>Trident</td>
+                                                <td>Internet
+                                                </td>
+                                                <td>Win 95+</td>
+
+                                            </tr>
+                                            <tr class="gradeC">
+                                                <td>Trident</td>
+                                                <td>Internet
+                                                </td>
+                                                <td>Win 95+</td>
+                                            </tr>
+                                            <tr class="gradeA">
+                                                <td>Trident</td>
+                                                <td>Internet
+                                                </td>
+                                                <td>Win 95+</td>
+                                            </tr>
+                                            <tr class="gradeA">
+                                                <td class="center">Trident</td>
+                                                <td>Explorer 6
+                                                </td>
+                                                <td>Win 98+</td>
+                                            </tr>
+                                            <tr class="gradeA">
+                                                <td>Trident</td>
+                                                <td>Explorer 7</td>
+                                                <td>Win XP SP2+</td>
+                                            </tr>
+                                            <tr class="gradeA">
+                                                <td>Trident</td>
+                                                <td>AOL browser</td>
+                                                <td>Win XP</td>
+
+                                            </tr>
+                                            <tr class="gradeA">
+                                                <td>Gecko</td>
+                                                <td>Firefox 1.0</td>
+                                                <td>Win 98</td>
+                                            </tr>
+
+                                            <tr class="gradeA">
+                                                <td>Presto</td>
+                                                <td>Opera 7.5</td>
+                                                <td>Win 95</td>
+                                            </tr>
+                                            <tr class="gradeA">
+                                                <td>Presto</td>
+                                                <td>Opera 8.0</td>
+                                                <td>Win 95+</td>
+                                            </tr>
+                                            <tr class="gradeA">
+                                                <td>Presto</td>
+                                                <td>Opera 8.5</td>
+                                                <td>Win 95+</td>
+                                            </tr>
+                                            <tr class="gradeA">
+                                                <td>Presto</td>
+                                                <td>Opera 9.0</td>
+                                                <td>Win 95+</td>
+                                            </tr>
+                                            <tr class="gradeC">
+                                                <td>KHTML</td>
+                                                <td>Konqureror</td>
+                                                <td>KDE 3.1</td>
+
+                                            </tr>
+                                            <tr class="gradeX">
+                                                <td>Tasman</td>
+                                                <td>Internet Explorer</td>
+                                                <td>Mac OS 8-9</td>
+
+                                            </tr>
+                                            <tr class="gradeC">
+                                                <td>Tasman</td>
+                                                <td>Internet</td>
+                                                <td>Mac OS 7.6-9</td>
+                                            </tr>
+                                            <tr class="gradeC">
+                                                <td>Tasman</td>
+                                                <td>Explorer 5.2</td>
+                                                <td>Mac OS 8-X</td>
+
+                                            </tr>
+                                            <tr class="gradeA">
+                                                <td>Misc</td>
+                                                <td>NetFront 3.1</td>
+                                                <td>Embedded devices</td>
+
+                                            </tr>
+                                            <tr class="gradeU">
+                                                <td>Other browsers</td>
+                                                <td>All others</td>
+                                                <td>-</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="panel">
+                        <div class="panel">
+                            <div class="panel-body">
+                                <div id="echarts-div2" style="min-width:500px;height:500px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!--所有股票聚类结果 end-->
+        </div>
+        <!--body wrapper end-->
+        <!--footer section start-->
+        <footer th:include="footer_template :: myfooter"></footer>
+        <!--footer section end-->
+    </div>
+    <!-- main content end-->
+</section>
+
+
+<!-- Placed js at the end of the document so the pages load faster -->
+<script src="../static/js/jquery-1.10.2.min.js" th:src="@{js/jquery-1.10.2.min.js}"></script>
+<script src="../static/js/jquery-ui-1.9.2.custom.min.js" th:src="@{js/jquery-ui-1.9.2.custom.min.js}"></script>
+<script src="../static/js/jquery-migrate-1.2.1.min.js" th:src="@{js/jquery-migrate-1.2.1.min.js}"></script>
+<script src="../static/js/bootstrap.min.js" th:src="@{js/bootstrap.min.js}"></script>
+<!--<script src="js/js/modernizr.min.js"></script>-->
+<script src="../static/js/bootstrap.min.js" th:src="@{js/jquery.nicescroll.js}"></script>
+
+<!--common scripts for all pages-->
+<script src="../static/js/scripts.js"  th:src="@{js/scripts.js}"></script>
+<!--pickers plugins-->
+<script src="../static/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"  th:src="@{plugins/bootstrap-datepicker/js/bootstrap-datepicker.js}"></script>
+<!--pickers initialization-->
+<script src="../static/js/pickers-init.js" th:src="@{js/pickers-init.js}"></script>
+
+<!--slider initialization-->
+<script src="../static/js/myjsfile.js" th:src="@{js/myjsfile.js}"></script>
+
+<!--dynamic table-->
+<script src="../static/plugins/advanced-datatable/js/jquery.dataTables.js" th:src="@{plugins/advanced-datatable/js/jquery.dataTables.js}"></script>
+<script src="../static/plugins/data-tables/DT_bootstrap.js" th:src="@{plugins/data-tables/DT_bootstrap.js}"></script>
+<!--dynamic table initialization -->
+<script src="../static/plugins/advanced-datatable/dynamic_table_init.js" th:src="@{plugins/advanced-datatable/dynamic_table_init.js}"></script>
+
+<!-- echarts stock-->
+<script src="../static/js/echarts/echarts.min.js" th:src="@{js/echarts/echarts.min.js}"></script>
+<script src="../static/js/echarts/dark.js" th:src="@{js/echarts/dark.js}"></script>
+<script src="../static/js/echarts/echarts-init.js" th:src="@{js/echarts/echarts-init.js}"></script>
+
+
+</body>
+</html>
