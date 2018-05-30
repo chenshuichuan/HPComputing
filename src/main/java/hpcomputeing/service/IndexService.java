@@ -11,6 +11,7 @@ import hpcomputeing.entities.Stock;
 import hpcomputeing.entities.Zuhe;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -30,5 +31,9 @@ public interface IndexService {
     public List<Zuhe> getZuheByModel(String model);
 
     public List<Stock> getParamByModel(String model);
+
+    public List<String> readDateOrStocks(String model,String fileName);
+    public List<String> getStockDataByModelAndStock(String modelName,int lineNumber);
+
 
 }

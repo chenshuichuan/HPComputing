@@ -86,15 +86,8 @@
                                                     <label>股票数量:</label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input type="text" id="amount" class="form-control">
+                                                    <input th:value="${stock_size}" type="text" id="amount" class="form-control">
                                                     <div id="slider-range-max"></div>
-                                                </div>
-                                            </div>
-                                            <div class="row next_param">
-                                                <div class="col-md-5">
-
-                                                </div>
-                                                <div class="col-md-7">
                                                 </div>
                                             </div>
                                         </div>
@@ -105,7 +98,7 @@
                                                     <label>起始日期:</label>
                                                 </div>
                                                 <div class="col-md-7">
-                                                    <input class="form-control default-date-picker" size="16"
+                                                    <input th:value="${start_date}" class="form-control default-date-picker" size="16"
                                                            type="text" value="" readonly/>
                                                 </div>
                                             </div>
@@ -116,7 +109,7 @@
                                                 </div>
                                                 <div class="col-md-7">
                                                     <input class="form-control default-date-picker" size="16"
-                                                           type="text" value="" readonly/>
+                                                           type="text" th:value="${end_date}" readonly/>
                                                 </div>
                                             </div>
                                         </div>
@@ -127,7 +120,8 @@
                                                 </div>
                                                 <div class="col-md-7">
                                                     <input type="text" class="form-control"
-                                                           placeholder="15">
+                                                           placeholder="150"
+                                                           th:value="${cluster_size}">
                                                 </div>
                                             </div>
                                             <div class="row next_param">
@@ -136,7 +130,8 @@
                                                 </div>
                                                 <div class="col-md-7">
                                                     <input type="text" class="form-control"
-                                                           placeholder="10">
+                                                           placeholder="100"
+                                                           th:value="${predict_dates}">
                                                 </div>
                                             </div>
                                         </div>
@@ -181,14 +176,19 @@
                                     <table class="table table-hover">
                                         <thead>
                                         <tr>
-                                            <th></th>
+                                            <th><span class="label label-info label-mini"></span></th>
                                             <th>聚类类别</th>
                                             <th>股票代码</th>
                                             <th>股票名称</th>
                                         </tr>
                                         </thead>
-                                        <tbody >
-
+                                        <tbody id="tbzuhe">
+                                        <tr th:each="zuhe,iterStat:${zuheList}" >
+                                            <td></td>
+                                            <td th:text="|第${zuhe.classId}聚类|">第i类</td>
+                                            <td th:text="${zuhe.id}">第i类</td>
+                                            <td th:text="${zuhe.name}">第i类</td>
+                                        </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -234,7 +234,11 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-
+                                            <tr th:each="zuhe,iterStock:${clusterZuheList}">
+                                                <td th:text="|第${zuhe.classId}聚类|">第i类</td>
+                                                <td th:text="${zuhe.id}">代码</td>
+                                                <td th:text="${zuhe.name}">名称</td>
+                                            </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -295,5 +299,80 @@
 <script src="../static/js/echarts/echarts-init.js" th:src="@{js/echarts/echarts-init.js}"></script>
 
 
+<!--slider initialization-->
+<!--<script th:inline="javascript" src="../static/js/inline_js.js" th:src="@{js/inline_js.js}"></script>-->
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var size = /*[[${stock_size}]]*/ 2;
+    var all_stock_size = /*[[${all_stock_size}]]*/ 100;
+    //alert("size is "+size);
+    $(function() {
+        $( "#slider-range-max" ).slider({
+            range: "max",
+            min: 1,
+            max: all_stock_size,
+            value: size,
+            slide: function( event, ui ) {
+                $( "#amount" ).val( ui.value );
+            }
+        });
+        $( "#amount" ).val( $( "#slider-range-max" ).slider( "value" ) );
+    });
+    /*]]>*/
+</script>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var piePartList = /*[[${pieChartsParamList}]]*/ 2;
+    //alert(piePartList);
+    var data =[];
+    for (var i=0;i<piePartList.length;i++){
+        var temp = {value:piePartList[i].value,name:piePartList[i].partName};
+        data[i] = temp;
+    }
+    /*最优组合的图表 piecahrt start*/
+//    var data = [
+//        {value:335, name:'第一聚类'},
+//        {value:310, name:'第二聚类'},
+//        {value:274, name:'第三聚类'},
+//        {value:235, name:'第四聚类'},
+//        {value:400, name:'第五聚类'}
+//    ];
+    var pieColor= [ '#1f7be1', '#e12a1d','#ffcb37','#5375e1','#e140c4','#7adde1','#1911e1','#a0e136','#e17325'];
+
+    var pieChartOption = {
+        title : {
+            text: '各聚类占比统计',
+            x:'left',
+            textStyle:{color:'#ffffff',fontSize:15}
+        },
+        color:pieColor,
+        tooltip : {
+            trigger: 'item',
+            formatter: "{b} : {c} ({d}%)"
+        },
+        series : [
+            {
+                name: '类别',
+                type: 'pie',
+                radius : '55%',
+                center: ['50%', '50%'],
+                data:data,
+                itemStyle: {
+                    emphasis: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                }
+            }
+        ]
+    };
+    var pieChart = echarts.init(document.getElementById('echart-piecchart'));
+    pieChart.setOption(pieChartOption);
+    /*最优组合的图表 piecahrt end*/
+
+    /*]]>*/
+</script>
 </body>
 </html>

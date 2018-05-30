@@ -58,48 +58,6 @@ var myChartOption = {
 myChart.setOption(myChartOption);
 /*最优组合的图表 end*/
 
-/*最优组合的图表 piecahrt start*/
-var data = [
-    {value:335, name:'第一聚类'},
-    {value:310, name:'第二聚类'},
-    {value:274, name:'第三聚类'},
-    {value:235, name:'第四聚类'},
-    {value:400, name:'第五聚类'}
-];
-var pieColor= [ '#1f7be1', '#e12a1d','#ffcb37','#5375e1','#e140c4'];
-var pieChartOption = {
-    title : {
-        text: '各聚类占比统计',
-        x:'left',
-        textStyle:{color:'#ffffff',fontSize:15}
-    },
-    color:pieColor,
-    tooltip : {
-        trigger: 'item',
-        formatter: "{b} : {c} ({d}%)"
-    },
-    series : [
-        {
-            name: '类别',
-            type: 'pie',
-            radius : '55%',
-            center: ['50%', '50%'],
-            data:data,
-            itemStyle: {
-                emphasis: {
-                    shadowBlur: 10,
-                    shadowOffsetX: 0,
-                    shadowColor: 'rgba(0, 0, 0, 0.5)'
-                }
-            }
-        }
-    ]
-};
-var pieChart = echarts.init(document.getElementById('echart-piecchart'));
-pieChart.setOption(pieChartOption);
-/*最优组合的图表 piecahrt end*/
-
-
 
 /*所有聚类的图表 start*/
 var myChart2 = echarts.init(document.getElementById('echarts-div2'));

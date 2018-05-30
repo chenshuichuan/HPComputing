@@ -117,6 +117,7 @@ public class ReadDataFile {
             reader=new BufferedReader(new FileReader(file));
             while((temp=reader.readLine())!=null&&temp.length()>0){
                 System.out.println(temp+"，存入列表");
+                temp = temp.replace(" ","");
                 String[] arr= temp.split(",");
                 if (arr.length>3||arr.length<=0)
                     throw new ArrayIndexOutOfBoundsException("zuhe.txt数据异常！");
@@ -159,7 +160,7 @@ public class ReadDataFile {
                 count++;
                 if (count!=1)
                     throw new ArrayIndexOutOfBoundsException("stock_list.json数据异常！");
-                stockList = transJsonToStock(temp);
+                stockList = transJsonToStock(temp.replace(" ",""));
                 //allStock
             }
         }
@@ -272,5 +273,119 @@ public class ReadDataFile {
             }
         }
         return paramList;
+    }
+
+
+    /*读取data.csv或者stocks.csv的数据
+   * 格式：要求数据为utf-8的格式
+   *stocks.csv
+   *0,创元科技
+   * 1,山东威达
+   * 2,新湖中宝
+   * 3,亚厦股份
+   * 4,神剑股份
+   *date.csv
+   * 0,2017/12/18
+   * 1,2017/12/19
+   * 2,2017/12/20
+   * 3,2017/12/21
+   * 4,2017/12/22
+   * 5,2017/12/25
+   * */
+    public static List<String> readDateOrStocks(String model,String fileName){
+
+        List<String> stringList = new ArrayList<>();
+
+        File file=new File(dataPath+model+"/"+fileName);
+        BufferedReader reader=null;
+        String temp=null;
+
+        try{
+
+            reader=new BufferedReader(new FileReader(file));
+            while((temp=reader.readLine())!=null&&temp.length()>0){
+                System.out.println(temp+"，存入列表");
+                String[] arr= temp.split(",");
+                if (arr.length>2||arr.length<=0)
+                    throw new ArrayIndexOutOfBoundsException("readDateOrStocks数据异常！");
+                stringList.add(arr[1].replace(" ",""));
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        finally{
+            if(reader!=null){
+                try{
+                    reader.close();
+                }
+                catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }
+        System.out.println("读取到"+stringList.size()+"条记录！");
+        return stringList;
+    }
+
+    /* 根据给定的行号（从0行开始算起）
+     * 读取pre.csv或者true.csv的数据
+     * 返回两行，两个String对象
+     * 格式：要求数据为utf-8的格式
+     *
+     *
+     * */
+    public static List<String> readPreAndTrueByLineNumber(String model,int lineNumber){
+
+        List<String> stringList = new ArrayList<>();
+
+        File prefile=new File(dataPath+model+"/"+"pre.csv");
+        BufferedReader pre_reader=null;
+        File truefile=new File(dataPath+model+"/"+"true.csv");
+        BufferedReader true_reader=null;
+        String preStr=null;
+        String trueStr=null;
+        try{
+            pre_reader=new BufferedReader(new FileReader(prefile));
+            true_reader=new BufferedReader(new FileReader(truefile));
+
+            int lineCount = 0;
+            while((preStr=pre_reader.readLine())!=null&&preStr.length()>0&&
+                    (trueStr=true_reader.readLine())!=null&&trueStr.length()>0){
+                System.out.println(lineCount+"行，读取到");
+                if (lineCount == lineNumber){
+                    System.out.println(lineCount+"行读取到preStr="+preStr);
+                    System.out.println(lineCount+"行读取到trueStr="+trueStr);
+
+                    stringList.add(preStr);
+                    stringList.add(trueStr);
+                    break;
+                }
+                lineCount++;
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        finally{
+            if(pre_reader!=null){
+                try{
+                    pre_reader.close();
+                }
+                catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+            if(true_reader!=null){
+                try{
+                    true_reader.close();
+                }
+                catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }
+        System.out.println("读取到"+stringList.size()+"条记录！");
+        return stringList;
     }
 }

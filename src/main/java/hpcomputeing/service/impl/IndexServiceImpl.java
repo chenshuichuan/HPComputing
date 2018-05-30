@@ -52,5 +52,12 @@ public class IndexServiceImpl implements IndexService{
     public List<Stock> getParamByModel(String model) {
         return ReadDataFile.ReadParam(model);
     }
-
+    @Override
+    public List<String> readDateOrStocks(String model,String fileName){
+        return ReadDataFile.readDateOrStocks(model,fileName);
+    }
+    @Override
+    public List<String> getStockDataByModelAndStock(String modelName,int lineNumber){
+        return ReadDataFile.readPreAndTrueByLineNumber(modelName,lineNumber);
+    }
 }

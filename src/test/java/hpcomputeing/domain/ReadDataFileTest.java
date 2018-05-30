@@ -12,8 +12,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.lessThan;
 import static org.junit.Assert.*;
 
 /**
@@ -60,6 +63,27 @@ public class ReadDataFileTest {
         List<Stock> paramList =  ReadDataFile.ReadParam("model1");
 
         Assert.assertThat(paramList, notNullValue());
+
+    }
+
+    @Test
+    public void readDateOrStocksTest() throws Exception {
+        List<String> stringList =  ReadDataFile.readDateOrStocks("model2","date.csv");
+
+        List<String> stockList =  ReadDataFile.readDateOrStocks("model2","stocks.csv");
+
+        Assert.assertThat(stringList.size(), allOf( greaterThan(0), lessThan(101) ) );
+
+        Assert.assertThat(stockList.size(), allOf( greaterThan(0), lessThan(1002) ) );
+
+
+    }
+    @Test
+    public void readPreAndTrueByLineNumberTest() throws Exception {
+        List<String> stringList =  ReadDataFile.readPreAndTrueByLineNumber("model2",5);
+
+        Assert.assertThat(stringList.size(), is(2 ) );
+
 
     }
 
