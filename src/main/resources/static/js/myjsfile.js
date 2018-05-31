@@ -16,7 +16,7 @@
 /*动态文字时钟*/
 var click = setInterval(function() {
     var time = new Date();
-    var timeStr = time.getFullYear()+'年'+time.getMonth()+'月'+time.getDate()+'日 '+
+    var timeStr = time.getFullYear()+'年'+(time.getMonth()+1)+'月'+time.getDate()+'日 '+
         time.getHours()+':'+time.getMinutes()+':'+time.getSeconds();
     $("#click").html(timeStr).css();
 }, 1000);

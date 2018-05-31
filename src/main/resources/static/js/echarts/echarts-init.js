@@ -1,114 +1,135 @@
 
-/*最优组合的图表 start*/
-// 基于准备好的dom，初始化echarts实例
-var myChart = echarts.init(document.getElementById('echarts-div'),"dark");
+function setStockSize(all_stock_size,size) {
+    $(function() {
+        $( "#slider-range-max" ).slider({
+            range: "max",
+            min: 1,
+            max: all_stock_size,
+            value: size,
+            slide: function( event, ui ) {
+                $( "#amount" ).val( ui.value );
+            }
+        });
+        $( "#amount" ).val( $( "#slider-range-max" ).slider( "value" ) );
+    });
+}
+function setBestChart(myChart,data,xdata,titleText) {
+    /*最优组合的图表 start*/
+    /*在model.html中实例化 echart*/
 // 指定图表的配置项和数据
-// 指定图表的配置项和数据
-var myChartOption = {
-    // 全局调色盘。
-    title: {
-        text: 'ECharts'
-    },
-    tooltip: { trigger: 'axis'},
-    dataZoom: [
-        {   // 这个dataZoom组件，默认控制x轴。
-            type: 'slider', // 这个 dataZoom 组件是 slider 型 dataZoom 组件
-            start: 1,      // 左边在 10% 的位置。
-            end: 99         // 右边在 60% 的位置。
+    var myChartOption = {
+        // 全局调色盘。
+        title: {
+            text: titleText
         },
-        {   // 这个dataZoom组件，也控制x轴。
-            type: 'inside', // 这个 dataZoom 组件是 inside 型 dataZoom 组件
-            start: 10,      // 左边在 10% 的位置。
-            end: 60         // 右边在 60% 的位置。
-        }
-    ],
-    legend: {
-        data:['计划','销量']
-    },
-    xAxis: {
-        data: ["衬衫11111111111","羊毛衫2222222222222","雪纺衫222222222222",
-            "裤子3333333333","高跟鞋3333333333","袜子333444444"]
-    },
-    yAxis: {},
-    toolbox: {
-        show: true,
-        feature: {
-            dataZoom: {
-                yAxisIndex: 'none'
+        tooltip: { trigger: 'axis'},
+        dataZoom: [
+            {   // 这个dataZoom组件，默认控制x轴。
+                type: 'slider', // 这个 dataZoom 组件是 slider 型 dataZoom 组件
+                start: 1,      // 左边在 10% 的位置。
+                end: 99         // 右边在 60% 的位置。
             },
-            magicType: {type: ['line', 'bar']},
-            restore: {},
-            saveAsImage: {}
-        }
-    },
-    series: [{
-        name: '销量',
-        type: 'line',
-        color: [ '#1f7be1', '#e12a1d'],
-        data: [5, 20, 36, 10, 10, 20]
-    },
-        {
-            name: '计划',
+            {   // 这个dataZoom组件，也控制x轴。
+                type: 'inside', // 这个 dataZoom 组件是 inside 型 dataZoom 组件
+                start: 10,      // 左边在 10% 的位置。
+                end: 60         // 右边在 60% 的位置。
+            }
+        ],
+        legend: {
+            data:['预测值','实际值']
+        },
+        xAxis: {
+            name: "时间",
+            nameLocation: 'end',
+            axisLabel : {
+                interval: 3,
+                rotate:35
+            },
+            data:xdata
+        },
+        yAxis: {
+            name: "增长率",
+            nameLocation: 'center'
+        },
+        toolbox: {
+            show: true,
+            feature: {
+                dataZoom: {
+                    yAxisIndex: 'none'
+                },
+                magicType: {type: ['line', 'bar']},
+                restore: {},
+                saveAsImage: {}
+            }
+        },
+        series: [{
+            name: '预测值',
             type: 'line',
-            data: [-5, 50, 26, 20, -10, 50]
-        }
-    ]
-};
+            color: [ '#1f7be1', '#e12a1d'],
+            data: data[0]
+        },
+            {
+                name: '实际值',
+                type: 'line',
+                data: data[1]
+            }
+        ]
+    };
 // 使用刚指定的配置项和数据显示图表。
-myChart.setOption(myChartOption);
-/*最优组合的图表 end*/
+    myChart.setOption(myChartOption);
+    /*最优组合的图表 end*/
+}
 
+function setPieChart(data) {
+    var pieColor= [ '#1f7be1', '#e12a1d','#ffcb37','#5375e1','#e140c4','#7adde1','#1911e1','#a0e136','#e17325'];
 
-/*所有聚类的图表 start*/
-var myChart2 = echarts.init(document.getElementById('echarts-div2'));
-var myChartOption2 = {
-    title: {
-        text: 'ECharts'
-    },
-    tooltip: { trigger: 'axis'},
-    dataZoom: [
-        {   // 这个dataZoom组件，默认控制x轴。
-            type: 'slider', // 这个 dataZoom 组件是 slider 型 dataZoom 组件
-            start: 1,      // 左边在 10% 的位置。
-            end: 99         // 右边在 60% 的位置。
+    var pieChartOption = {
+        title : {
+            text: '各聚类占比统计',
+            x:'left',
+            textStyle:{color:'#ffffff',fontSize:15}
         },
-        {   // 这个dataZoom组件，也控制x轴。
-            type: 'inside', // 这个 dataZoom 组件是 inside 型 dataZoom 组件
-            start: 1,      // 左边在 10% 的位置。
-            end: 99         // 右边在 60% 的位置。
-        }
-    ],
-    legend: {
-        data:['计划','销量']
-    },
-    xAxis: {
-        data: ["衬衫11111111111","羊毛衫2222222222222","雪纺衫222222222222",
-            "裤子3333333333","高跟鞋3333333333","袜子333444444"]
-    },
-    yAxis: {},
-    toolbox: {
-        show: true,
-        feature: {
-            dataZoom: {
-                yAxisIndex: 'none'
-            },
-            magicType: {type: ['line', 'bar']},
-            restore: {},
-            saveAsImage: {}
-        }
-    },
-    series: [{
-        name: '销量',
-        type: 'line',
-        color: [ '#1f7be1', '#e12a1d'],
-        data: [5, 20, 36, 10, 10, 20]
-    },
-        {
-            name: '计划',
-            type: 'line',
-            data: [-5, 50, 26, 20, -10, 50]
-        }
-    ]
-};
-myChart2.setOption(myChartOption2);
-/*所有聚类的图表 end*/
+        color:pieColor,
+        tooltip : {
+            trigger: 'item',
+            formatter: "{b} : {c} ({d}%)"
+        },
+        series : [
+            {
+                name: '类别',
+                type: 'pie',
+                radius : '55%',
+                center: ['50%', '50%'],
+                data:data,
+                itemStyle: {
+                    emphasis: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                }
+            }
+        ]
+    };
+    var pieChart = echarts.init(document.getElementById('echart-piecchart'));
+    pieChart.setOption(pieChartOption);
+    /*最优组合的图表 piecahrt end*/
+
+}
+
+/*将获取的后台数据，格式为：预测值，实际值：["539,0.2,3.2,5.4","539,1.2,6.32,55"]
+* 转化为两个数组的格式：[ [],[] ]*/
+function getDataTransfer(data) {
+    var data1 = data[0].split(",");
+    var preData = [];
+    var i =0;
+    for ( i=1; i<data1.length; i++){
+        preData[i-1]= parseFloat(data1[i]);
+    }
+    var data2 = data[1].split(",");
+    var trueData = [];
+    for (i=1; i<data2.length; i++){
+        trueData[i-1]= parseFloat(data2[i]);
+    }
+    return  [preData,trueData];
+}

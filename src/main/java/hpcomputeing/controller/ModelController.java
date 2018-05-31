@@ -61,9 +61,9 @@ public class ModelController {
         for(Stock param :paramList){
             System.out.println(param.getId()+"="+param.getName());
             switch (param.getId()){
+                /*这个case有bug*/
                 case "股票数量":
-                    int stock_size = Integer.parseInt(param.getName());
-                    modelAndView.addObject("stock_size", stock_size);
+                    modelAndView.addObject("stock_size", Integer.parseInt(param.getName()));
                     break;
                 case "起始日期":
                     startDate = param.getName();
@@ -83,6 +83,8 @@ public class ModelController {
                 case "预测天数":
                     modelAndView.addObject("predict_dates", param.getName());
                     break;
+                    default:
+                        System.out.println(param.getId()+": no march case!");
             }
         }
 
@@ -91,6 +93,9 @@ public class ModelController {
         modelAndView.addObject("all_stock_size", clusterZuheList.size());
         System.out.println("all_stock_size="+ clusterZuheList.size());
         modelAndView.addObject("clusterZuheList", clusterZuheList);
+
+        //获取时间横坐标
+        modelAndView.addObject("xdata", indexService.readDateOrStocks(model,"date.csv"));
 
         return modelAndView;
     }
@@ -115,15 +120,17 @@ public class ModelController {
     public List<String> getStockDataByModelAndStock(@RequestParam("modelName")String modelName,
                                         @RequestParam("stockName")String stockName){
 
-
+        stockName = stockName.replace(" ","");
         List<String> stockList = indexService.readDateOrStocks(modelName,"stocks.csv");
         int i=0;
         for (; i<stockList.size();i++) {
-            System.out.println("对比："+stockList.get(i) +"=="+ stockName);
+            //System.out.println("对比："+stockList.get(i) +"=="+ stockName);
             if(stockName.equals(stockList.get(i)))break;
         }
         List<String> data = null;
+        //未找到对应股票
         if(i == stockList.size())logger.error("未找到相关股票数据！");
+        //找到对应股票数据
         else data = indexService.getStockDataByModelAndStock(modelName,i);
 
         return data;

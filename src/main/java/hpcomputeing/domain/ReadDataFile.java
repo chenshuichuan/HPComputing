@@ -57,7 +57,7 @@ public class ReadDataFile {
 //                line++;
                 //读到新一类
                 if (temp.contains("类的股票有以下")){
-                    System.out.println(temp+"非空，存入列表");
+                    //System.out.println(temp+"非空，存入列表");
                     //非空，则将上一类存入列表
                     if (cluster!=null)clusterList.add(cluster);
                     //新起一类
@@ -67,7 +67,7 @@ public class ReadDataFile {
                 }
                 //读到正常股票数据
                 else{
-                    System.out.println(temp+"，存入列表");
+                    //System.out.println(temp+"，存入列表");
                     String[] arr= temp.split(",");
                     if (arr.length>2||arr.length<=0)
                         throw new ArrayIndexOutOfBoundsException("cluster.txt数据异常！");
@@ -116,7 +116,7 @@ public class ReadDataFile {
 
             reader=new BufferedReader(new FileReader(file));
             while((temp=reader.readLine())!=null&&temp.length()>0){
-                System.out.println(temp+"，存入列表");
+                //System.out.println(temp+"，存入列表");
                 temp = temp.replace(" ","");
                 String[] arr= temp.split(",");
                 if (arr.length>3||arr.length<=0)
@@ -191,7 +191,7 @@ public class ReadDataFile {
             Set<String>stringSet = json.keySet();
             for (String key : stringSet) {
                 String value = json.getString(key);
-                System.out.println("key = "+key+",value = "+value);
+                //System.out.println("key = "+key+",value = "+value);
                 stockList.add(new Stock(key,value));
             }
         }
@@ -248,6 +248,7 @@ public class ReadDataFile {
         BufferedReader reader=null;
         String temp=null;
         List<Stock> paramList = new ArrayList<>();
+        paramList.add(new Stock("测试id","测试值"));
         try{
             reader=new BufferedReader(new FileReader(file));
             int count =0;
@@ -304,7 +305,7 @@ public class ReadDataFile {
 
             reader=new BufferedReader(new FileReader(file));
             while((temp=reader.readLine())!=null&&temp.length()>0){
-                System.out.println(temp+"，存入列表");
+                //System.out.println(temp+"，存入列表");
                 String[] arr= temp.split(",");
                 if (arr.length>2||arr.length<=0)
                     throw new ArrayIndexOutOfBoundsException("readDateOrStocks数据异常！");
@@ -352,7 +353,7 @@ public class ReadDataFile {
             int lineCount = 0;
             while((preStr=pre_reader.readLine())!=null&&preStr.length()>0&&
                     (trueStr=true_reader.readLine())!=null&&trueStr.length()>0){
-                System.out.println(lineCount+"行，读取到");
+                //System.out.println(lineCount+"行，读取到");
                 if (lineCount == lineNumber){
                     System.out.println(lineCount+"行读取到preStr="+preStr);
                     System.out.println(lineCount+"行读取到trueStr="+trueStr);
