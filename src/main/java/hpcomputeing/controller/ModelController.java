@@ -61,7 +61,7 @@ public class ModelController {
         for(Stock param :paramList){
             System.out.println(param.getId()+"="+param.getName());
             switch (param.getId()){
-                /*这个case有bug*/
+
                 case "股票数量":
                     modelAndView.addObject("stock_size", Integer.parseInt(param.getName()));
                     break;
@@ -120,6 +120,7 @@ public class ModelController {
     public List<String> getStockDataByModelAndStock(@RequestParam("modelName")String modelName,
                                         @RequestParam("stockName")String stockName){
 
+        logger.debug("getStockDataByModelAndStock?modelName="+modelName+"&stockName"+stockName);
         stockName = stockName.replace(" ","");
         List<String> stockList = indexService.readDateOrStocks(modelName,"stocks.csv");
         int i=0;
