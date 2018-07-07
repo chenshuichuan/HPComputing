@@ -5,7 +5,7 @@
     <title>Title</title>
 </head>
 <body>
-<div  th:fragment="leftside">
+<div th:fragment="leftside">
     <!--logo and iconic logo start-->
     <div class="logo">
         <a href="index.html"><img src="../static/images/logo.png" th:src="@{images/logo.png}" alt=""></a>
@@ -19,18 +19,16 @@
     <div class="left-side-inner">
         <!--sidebar nav start-->
         <ul class="nav nav-pills nav-stacked custom-nav">
-            <li class="active">
-                <a href="#">
+            <li id="index-page">
+                <a href="index.html">
                     <i class="fa fa-home"></i>
-                    <span>Home</span>
+                    <span>首页</span>
                 </a>
             </li>
-            <li><a href="#"><i class="fa fa-laptop"></i> <span>About</span></a>
+            <!--<li id="model-page"><a href="model.html"><i class="fa fa-laptop"></i> <span>预测模型历史记录</span></a>-->
+            <li><a href="#"><i class="fa fa-laptop"></i> <span>关于我们</span></a>
         </ul>
         <!--sidebar nav end-->
-        <div>
-
-        </div>
     </div>
 </div>
 </body>

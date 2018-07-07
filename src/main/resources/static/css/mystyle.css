@@ -70,3 +70,6 @@ button:active:after{
     max-height: 260px;
     overflow:auto;
 }
+#bar-text span{
+    color: #4c4ae1;
+}
