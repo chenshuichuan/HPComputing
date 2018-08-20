@@ -37,10 +37,9 @@ public class ModelController {
     private IndexService indexService;
 
     @RequestMapping(value="/model.html", method= RequestMethod.GET)
-    public ModelAndView modelView(){
-        //@RequestParam("modelName")String modelName
-        String model = "model2";
-        //String model = modelName;
+    public ModelAndView modelView(@RequestParam("modelName")String modelName){
+        //String model = "model3";
+        String model = modelName;
 
         //最优组合
         List<Zuhe>zuheList = indexService.getZuheByModel(model);
