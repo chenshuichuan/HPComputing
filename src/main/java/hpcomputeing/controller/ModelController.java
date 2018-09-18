@@ -19,8 +19,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *@ClassName: ModelController
@@ -120,7 +124,7 @@ public class ModelController {
     public List<String> getStockDataByModelAndStock(@RequestParam("modelName")String modelName,
                                         @RequestParam("stockName")String stockName){
 
-        logger.debug("getStockDataByModelAndStock?modelName="+modelName+"&stockName"+stockName);
+        logger.info("getStockDataByModelAndStock?modelName="+modelName+"&stockName"+stockName);
         stockName = stockName.replace(" ","");
         List<String> stockList = indexService.readDateOrStocks(modelName,"stocks.csv");
         int i=0;
@@ -137,16 +141,70 @@ public class ModelController {
         return data;
     }
 
-//    @RequestMapping(value="/model.html", method= RequestMethod.GET)
-//    public ModelAndView modelView(@RequestParam("model") String model){
-//        List<String> models =indexService.getModels();
-//        valifyModel(model);
-//        ModelAndView modelAndView = new ModelAndView("model");
-//        modelAndView.addObject("models", models);
-//        modelAndView.addObject("model", model);
-//        return modelAndView;
-//    }
+    @RequestMapping(value="/getDateByModel", method= RequestMethod.GET)
+    public List<String> getDateByModel(@RequestParam("model")String modelName){
+        logger.info("getDateByModel model="+modelName);
+        return  indexService.readDateOrStocks(modelName,"date.csv");
+    }
+    //分页返回
+    @RequestMapping(value="/getClusterZuheListByModel", method= RequestMethod.GET)
+    public Map<String,Object> getClusterZuheListByModel(HttpServletRequest request, HttpServletResponse response){
+        Map<String,Object> map =new HashMap<String,Object>();
 
+        String modelName = request.getParameter("model");
+        logger.info("getClusterZuheListByModel model="+modelName);
+        //直接返回前台
+        String draw = request.getParameter("draw");
+        //当前数据的起始位置 ，如第10条
+        String startIndex = request.getParameter("startIndex");
+        //数据长度
+        String pageSize = request.getParameter("pageSize");
+        int size = Integer.parseInt(pageSize);
+        int currentPage = Integer.parseInt(startIndex)/size;
+
+        //所有聚类
+        List<Cluster> clusterList = indexService.getClusterByModel(modelName);
+        List<Zuhe> clusterZuheList = new ArrayList<>();
+
+        //根据所有聚类情况计算饼图,并转化为组合类型
+        List<PieChartsParam> pieChartsParamList =
+                ControllerUtils.calPieChartsParamAndTurnZuhe(clusterList,clusterZuheList);
+
+        //总记录数
+        long total = clusterZuheList.size();
+        map.put("pageData", getPage( clusterZuheList, size, currentPage));
+        map.put("total", total);
+        map.put("draw", draw);
+        return map;
+    }
+    public List<Zuhe> getPage( List<Zuhe> clusterZuheList,int size,int currentPage){
+        logger.info("size="+size+",currentPage="+currentPage);
+        List<Zuhe> pageData = new ArrayList<>();
+        int startIndex =  size*currentPage;
+        for (int i =startIndex;i<(startIndex+size)&&i<clusterZuheList.size();i++){
+            pageData.add(clusterZuheList.get(i));
+        }
+        return pageData;
+    }
+    @RequestMapping(value="/getZuheListByModel", method= RequestMethod.GET)
+    public List<Zuhe> getZuheListByModel(@RequestParam("model")String modelName){
+        logger.info("getZuheListByModel model="+modelName);
+
+        return  indexService.getZuheByModel(modelName);
+    }
+    @RequestMapping(value="/getPieChartListByModel", method= RequestMethod.GET)
+    public List<PieChartsParam> getPieChartListByModel(@RequestParam("model")String modelName){
+        logger.info("getPieChartListByModel model="+modelName);
+
+        //所有聚类
+        List<Cluster> clusterList = indexService.getClusterByModel(modelName);
+        List<Zuhe> clusterZuheList = new ArrayList<>();
+
+        //根据所有聚类情况计算饼图,并转化为组合类型
+        List<PieChartsParam> pieChartsParamList =
+                ControllerUtils.calPieChartsParamAndTurnZuhe(clusterList,clusterZuheList);
+        return  pieChartsParamList;
+    }
     @RequestMapping(value="/modelOld.html", method= RequestMethod.GET)
     public ModelAndView modelViewBackup(){
         //@RequestParam("modelName")String modelName

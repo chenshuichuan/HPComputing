@@ -9,6 +9,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
 
 /**
  *@ClassName: DateAndString
@@ -19,33 +20,17 @@ import java.util.Date;
 public class DateAndString {
 
     public static void main(String[] args) {
-        Date date = new Date();
-        Date2String(date);
-        String startDateString = "2016-10-24 21:59:06";
-        String endDateString = "2016-10-24 21:59:06";
-
-        try {
-            String2Date(endDateString);
-        } catch (ParseException e) {
-            e.printStackTrace();
+        int num =17;
+        while (num>0){
+            System.out.println(num++%5+"\t");
+            num/=5;
         }
 
-        startDateString = "2017-2-25 21:59:06";
-        endDateString = "2017-3-3 21:59:06";
-        System.out.println("diff = " +calculateDates(startDateString,endDateString));
+        for (int i=0;;){
+            System.out.println("这是"+i);
+            break;
+        }
 
-
-        startDateString = "2016-10-24 21:59:06";
-        endDateString = "2016-10-25 21:59:06";
-        System.out.println("diff = " +calculateDates(startDateString,endDateString));
-
-        startDateString = "2016-10-24 21:59:06";
-        endDateString = "2016-11-30 21:59:06";
-        System.out.println("diff = " +calculateDates(startDateString,endDateString));
-
-        startDateString = "2017-2-25 21:59:06";
-        String dates =  "10";
-        System.out.println("diff = " +calculateEndDates(startDateString,dates));
     }
 
     /*返回 "yyyy-MM-dd" 模式的日期字符串*/
@@ -95,6 +80,17 @@ public class DateAndString {
         return c.getTimeInMillis();
     }
 
+    /**
+     * 取某个范围的任意数 min<= x < max
+     * @param min
+     * @param max
+     * @return
+     */
+    public static int getNext(int min, int max) {
+        Random random = new Random();
+        int s = random.nextInt(max) % (max - min + 1) + min;
+        return s;
+    }
 
     /*根据给定的"yyyy-MM-dd"格式起始日期字符串，以及中间间隔的天数，返回结束日期字符串，*/
     public static String calculateEndDates(String startDateString,String dates) {

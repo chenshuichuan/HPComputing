@@ -1,4 +1,4 @@
-
+//设置slider-range-max
 function setStockSize(all_stock_size,size) {
     $(function() {
         $( "#slider-range-max" ).slider({

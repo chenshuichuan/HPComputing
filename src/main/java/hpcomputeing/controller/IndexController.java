@@ -37,12 +37,69 @@ public class IndexController {
     @Autowired
     private IndexService indexService;
 
-    @RequestMapping("/index.html")
+    @RequestMapping({"/index.html","/index","/"})
     public ModelAndView index(){
+
+        ModelAndView modelAndView = new ModelAndView("index");
+        List<String> models = indexService.getModels();
+        modelAndView.addObject("modelList",models);
+        return modelAndView;
+    }
+
+    @RequestMapping("/index_iframe.html")
+    public ModelAndView index_iframe(){
         //@RequestParam("modelName")String modelName
-        String model = "model2";
+        String model = "model3zuhe5";
         //String model = modelName;
 
+        List<String> models = indexService.getModels();
+        //model = models.get(DateAndString.getNext(0,models.size()));
+        logger.info("读取的model为："+model);
+        //最优组合
+        List<Zuhe>zuheList = indexService.getZuheByModel(model);
+
+        //所有聚类
+        List<Cluster> clusterList = indexService.getClusterByModel(model);
+        List<Zuhe> clusterZuheList = new ArrayList<>();
+
+        //根据所有聚类情况计算饼图
+        List<PieChartsParam> pieChartsParamList =
+                ControllerUtils.calPieChartsParamAndTurnZuhe(clusterList,clusterZuheList);
+        //valifyModel(model);
+
+        ModelAndView modelAndView = new ModelAndView("index_iframe");
+        modelAndView.addObject("model", model);
+
+        modelAndView.addObject("zuheList", zuheList);
+        modelAndView.addObject("pieChartsParamList", pieChartsParamList);
+        modelAndView.addObject("all_stock_size", clusterZuheList.size());
+        System.out.println("all_stock_size="+ clusterZuheList.size());
+        modelAndView.addObject("clusterZuheList", clusterZuheList);
+
+        //获取时间横坐标
+        modelAndView.addObject("xdata", indexService.readDateOrStocks(model,"date.csv"));
+
+        return modelAndView;
+    }
+    @RequestMapping("/test3.html")
+    public ModelAndView test3(){
+
+        ModelAndView modelAndView = new ModelAndView("test3");
+        List<String> models = indexService.getModels();
+        modelAndView.addObject("modelList",models);
+        return modelAndView;
+    }
+
+
+    @RequestMapping("/index0910-backup.html")
+    public ModelAndView index0910_backup(){
+        //@RequestParam("modelName")String modelName
+        String model = "model3zuhe5";
+        //String model = modelName;
+
+        List<String> models = indexService.getModels();
+        model = models.get(DateAndString.getNext(0,models.size()));
+        logger.info("读取的model为："+model);
         //最优组合
         List<Zuhe>zuheList = indexService.getZuheByModel(model);
         //参数
@@ -56,7 +113,7 @@ public class IndexController {
                 ControllerUtils.calPieChartsParamAndTurnZuhe(clusterList,clusterZuheList);
         //valifyModel(model);
 
-        ModelAndView modelAndView = new ModelAndView("index");
+        ModelAndView modelAndView = new ModelAndView("index0910-backup");
         modelAndView.addObject("model", model);
 
         String startDate = null;
@@ -101,7 +158,6 @@ public class IndexController {
 
         return modelAndView;
     }
-
 
     @RequestMapping("/test.html")
     public ModelAndView test(@RequestParam("name")String modelName){

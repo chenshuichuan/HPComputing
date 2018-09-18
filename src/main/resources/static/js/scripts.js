@@ -128,7 +128,6 @@
          jQuery('.searchform').insertBefore('.menu-right');
       }
    }
-
     // panel collapsible
     $('.panel .tools .fa').click(function () {
         var el = $(this).parents(".panel").children(".panel-body");
@@ -151,12 +150,10 @@
 
     $("#sortable-todo").sortable();
 
-
     // panel close
     $('.panel .tools .fa-times').click(function () {
         $(this).parents(".panel").parent().remove();
     });
-
 
 
     // tool tips
@@ -166,12 +163,5 @@
     // popovers
 
     $('.popovers').popover();
-
-
-
-
-
-
-
 
 })(jQuery);
