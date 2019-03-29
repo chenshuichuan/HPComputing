@@ -5,3 +5,5 @@ model3zuhe5
 model4zuhe5
 model5zuhe7
 model6zuhe7
+model7zuhe10
+model8zuhe15
