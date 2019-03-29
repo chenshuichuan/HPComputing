@@ -27,7 +27,7 @@ import java.util.List;
  *@Date: 2018/5/23 20:11
  **/
 @Controller
-@RequestMapping("/images")
+@RequestMapping("/hpcomputing/images")
 public class ImagesController {
 
     @RequestMapping("/test")

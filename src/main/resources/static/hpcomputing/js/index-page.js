@@ -1,16 +1,16 @@
 
-var urlGetParam = "/getParamByModel";
-var urlGetDate = "/getDateByModel";
+var urlGetParam = "/hpcomputing/getParamByModel";
+var urlGetDate = "/hpcomputing/getDateByModel";
 //获取所有股票列表
-var urlGetClusterZuheList = "/getClusterZuheListByModel";
+var urlGetClusterZuheList = "/hpcomputing/getClusterZuheListByModel";
 //获取对应股票的评估数据
-var urlGetStocksData="/getStockDataByModelAndStock";
+var urlGetStocksData="/hpcomputing/getStockDataByModelAndStock";
 //获取最优组合列表
-var urlGetZuheList = "/getZuheListByModel";
+var urlGetZuheList = "/hpcomputing/getZuheListByModel";
 //获取最优组合对应评估数据
 
 //获取饼图数据
-var urlGetPieChartList="/getPieChartListByModel";
+var urlGetPieChartList="/hpcomputing/getPieChartListByModel";
 
 $(document).ready(function(){
     //date picker start

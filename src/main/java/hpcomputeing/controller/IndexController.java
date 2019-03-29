@@ -30,7 +30,7 @@ import java.util.List;
  *@Date: 2018/5/22 21:29
  **/
 @Controller
-@RequestMapping
+@RequestMapping("/hpcomputing")
 public class IndexController {
     private final static Logger logger = LoggerFactory.getLogger(IndexController.class);
 

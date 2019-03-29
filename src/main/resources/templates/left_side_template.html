@@ -8,10 +8,10 @@
 <div th:fragment="leftside">
     <!--logo and iconic logo start-->
     <div class="logo">
-        <a href="index.html"><img src="../static/images/logo.png" th:src="@{images/logo.png}" alt=""></a>
+        <a href="index.html"><img src="../static/hpcomputing/images/cps-logo.png" th:src="@{/hpcomputing/images/cps-logo.png}" alt=""></a>
     </div>
     <div class="logo-icon text-center">
-        <a href="index.html"><img src="../static/images/logo_icon.png" th:src="@{images/logo_icon.png}"
+        <a href="index.html"><img src="../static/hpcomputing/images/cps-logo.png" th:src="@{images/cps-logo.png}"
                                   alt=""></a>
     </div>
     <!--logo and iconic logo end-->
@@ -20,13 +20,13 @@
         <!--sidebar nav start-->
         <ul class="nav nav-pills nav-stacked custom-nav">
             <li id="index-page">
-                <a href="index.html">
+                <a href="/hpcomputing/index.html" th:href="@{/hpcomputing/index.html}">
                     <i class="fa fa-home"></i>
                     <span>首页</span>
                 </a>
             </li>
             <!--<li id="model-page"><a href="model.html"><i class="fa fa-laptop"></i> <span>预测模型历史记录</span></a>-->
-            <li><a href="#"><i class="fa fa-laptop"></i> <span>关于我们</span></a>
+            <li><a href="#" th:href="@{/hpcomputing/about.html}"><i class="fa fa-laptop"></i> <span>关于我们</span></a>
         </ul>
         <!--sidebar nav end-->
     </div>

@@ -40,7 +40,7 @@ public class ModelController {
     @Autowired
     private IndexService indexService;
 
-    @RequestMapping(value="/model.html", method= RequestMethod.GET)
+    @RequestMapping(value="/hpcomputing/model.html", method= RequestMethod.GET)
     public ModelAndView modelView(@RequestParam("modelName")String modelName){
         //String model = "model3";
         String model = modelName;
@@ -120,7 +120,7 @@ public class ModelController {
         return flag;
     }
 
-    @RequestMapping(value="/getStockDataByModelAndStock", method= RequestMethod.GET)
+    @RequestMapping(value="/hpcomputing/getStockDataByModelAndStock", method= RequestMethod.GET)
     public List<String> getStockDataByModelAndStock(@RequestParam("modelName")String modelName,
                                         @RequestParam("stockName")String stockName){
 
@@ -141,13 +141,13 @@ public class ModelController {
         return data;
     }
 
-    @RequestMapping(value="/getDateByModel", method= RequestMethod.GET)
+    @RequestMapping(value="/hpcomputing/getDateByModel", method= RequestMethod.GET)
     public List<String> getDateByModel(@RequestParam("model")String modelName){
         logger.info("getDateByModel model="+modelName);
         return  indexService.readDateOrStocks(modelName,"date.csv");
     }
     //分页返回
-    @RequestMapping(value="/getClusterZuheListByModel", method= RequestMethod.GET)
+    @RequestMapping(value="/hpcomputing/getClusterZuheListByModel", method= RequestMethod.GET)
     public Map<String,Object> getClusterZuheListByModel(HttpServletRequest request, HttpServletResponse response){
         Map<String,Object> map =new HashMap<String,Object>();
 
@@ -186,13 +186,13 @@ public class ModelController {
         }
         return pageData;
     }
-    @RequestMapping(value="/getZuheListByModel", method= RequestMethod.GET)
+    @RequestMapping(value="/hpcomputing/getZuheListByModel", method= RequestMethod.GET)
     public List<Zuhe> getZuheListByModel(@RequestParam("model")String modelName){
         logger.info("getZuheListByModel model="+modelName);
 
         return  indexService.getZuheByModel(modelName);
     }
-    @RequestMapping(value="/getPieChartListByModel", method= RequestMethod.GET)
+    @RequestMapping(value="/hpcomputing/getPieChartListByModel", method= RequestMethod.GET)
     public List<PieChartsParam> getPieChartListByModel(@RequestParam("model")String modelName){
         logger.info("getPieChartListByModel model="+modelName);
 
@@ -205,7 +205,7 @@ public class ModelController {
                 ControllerUtils.calPieChartsParamAndTurnZuhe(clusterList,clusterZuheList);
         return  pieChartsParamList;
     }
-    @RequestMapping(value="/modelOld.html", method= RequestMethod.GET)
+    @RequestMapping(value="/hpcomputing/modelOld.html", method= RequestMethod.GET)
     public ModelAndView modelViewBackup(){
         //@RequestParam("modelName")String modelName
         String model = "model1";
