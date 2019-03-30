@@ -11,9 +11,7 @@ import hpcomputeing.entities.Cluster;
 import hpcomputeing.entities.Stock;
 import hpcomputeing.entities.Zuhe;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -26,7 +24,7 @@ import java.util.Set;
  **/
 
 public class ReadDataFile {
-    private static String dataPath="./data/";
+    private static String dataPath="E:\\hpcomputing\\data\\";
     private static String clusterFile="cluster.txt";
     private static String zuheFile="zuhe.txt";
     private static String stock_listFile="stock_list.json";
@@ -51,9 +49,9 @@ public class ReadDataFile {
         try{
             Cluster cluster = null;
             int clusterId = 0;
-            reader=new BufferedReader(new FileReader(file));
+            reader=new BufferedReader(new InputStreamReader(new FileInputStream(file), "utf-8"));
             while((temp=reader.readLine())!=null&&temp.length()>0){
-//                System.out.println("line"+line+":"+temp);
+//                System.out.println("line"+line+":"+temp);new FileReader(file)
 //                line++;
                 //读到新一类
                 if (temp.contains("类的股票有以下")){
@@ -114,9 +112,9 @@ public class ReadDataFile {
         try{
             Zuhe cluster = null;
 
-            reader=new BufferedReader(new FileReader(file));
+            reader=new BufferedReader(new InputStreamReader(new FileInputStream(file), "utf-8"));
             while((temp=reader.readLine())!=null&&temp.length()>0){
-                //System.out.println(temp+"，存入列表");
+                //System.out.println(temp+"，存入列表");new FileReader(file)
                 temp = temp.replace(" ","");
                 String[] arr= temp.split(",");
                 if (arr.length>3||arr.length<=0)
@@ -144,7 +142,7 @@ public class ReadDataFile {
     }
 
     /*读取stock_list.json的数据
-    * 格式：要求数据为utf-8的格式,只有一行
+    * 格式：要求数据为utf-8的格式,只有一行//new FileReader(file)
     *{'300135': '宝利国际', '600583': '海油工程', '000595': '宝塔实业'}
     * */
     public static List<Stock> readStockList(String model){
@@ -153,7 +151,7 @@ public class ReadDataFile {
         BufferedReader reader=null;
         String temp=null;
         try{
-            reader=new BufferedReader(new FileReader(file));
+            reader=new BufferedReader(new InputStreamReader(new FileInputStream(file), "utf-8"));
             int count =0;
             while((temp=reader.readLine())!=null&&temp.length()>0){
                 System.out.println(temp+"，----读取到");
@@ -210,7 +208,7 @@ public class ReadDataFile {
         String temp=null;
         List<String> modelList = new ArrayList<>();
         try{
-            reader=new BufferedReader(new FileReader(file));
+            reader=new BufferedReader(new InputStreamReader(new FileInputStream(file), "utf-8"));
             int count =0;
             while((temp=reader.readLine())!=null&&temp.length()>0){
                 System.out.println(temp+"，----读取到");
@@ -244,13 +242,13 @@ public class ReadDataFile {
       * */
     public static List<Stock> ReadParam(String model){
 
-        File file=new File(dataPath+model+"/"+paramFile);
+        File file=new File(dataPath+model+"\\"+paramFile);
         BufferedReader reader=null;
         String temp=null;
         List<Stock> paramList = new ArrayList<>();
         paramList.add(new Stock("测试id","测试值"));
-        try{
-            reader=new BufferedReader(new FileReader(file));
+        try{//new FileReader(file)
+            reader=new BufferedReader(new InputStreamReader(new FileInputStream(file), "utf-8"));
             int count =0;
             while((temp=reader.readLine())!=null&&temp.length()>0){
                 //System.out.println(temp+"，----读取到");
@@ -297,15 +295,15 @@ public class ReadDataFile {
 
         List<String> stringList = new ArrayList<>();
 
-        File file=new File(dataPath+model+"/"+fileName);
+        File file=new File(dataPath+model+"\\"+fileName);
         BufferedReader reader=null;
         String temp=null;
 
         try{
 
-            reader=new BufferedReader(new FileReader(file));
+            reader=new BufferedReader(new InputStreamReader(new FileInputStream(file), "utf-8"));
             while((temp=reader.readLine())!=null&&temp.length()>0){
-                //System.out.println(temp+"，存入列表");
+                //System.out.println(temp+"，存入列表");new FileReader(file)
                 String[] arr= temp.split(",");
                 if (arr.length>2||arr.length<=0)
                     throw new ArrayIndexOutOfBoundsException("readDateOrStocks数据异常！");
@@ -347,8 +345,8 @@ public class ReadDataFile {
         String preStr=null;
         String trueStr=null;
         try{
-            pre_reader=new BufferedReader(new FileReader(prefile));
-            true_reader=new BufferedReader(new FileReader(truefile));
+            pre_reader=new BufferedReader(new InputStreamReader(new FileInputStream(prefile), "utf-8"));
+            true_reader=new BufferedReader(new InputStreamReader(new FileInputStream(truefile), "utf-8"));
 
             int lineCount = 0;
             while((preStr=pre_reader.readLine())!=null&&preStr.length()>0&&

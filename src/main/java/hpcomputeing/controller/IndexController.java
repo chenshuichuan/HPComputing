@@ -30,7 +30,7 @@ import java.util.List;
  *@Date: 2018/5/22 21:29
  **/
 @Controller
-@RequestMapping("/hpcomputing")
+@RequestMapping
 public class IndexController {
     private final static Logger logger = LoggerFactory.getLogger(IndexController.class);
 
@@ -43,6 +43,12 @@ public class IndexController {
         ModelAndView modelAndView = new ModelAndView("index");
         List<String> models = indexService.getModels();
         modelAndView.addObject("modelList",models);
+        return modelAndView;
+    }
+    @RequestMapping({"/about.html","/about"})
+    public ModelAndView about(){
+
+        ModelAndView modelAndView = new ModelAndView("about");
         return modelAndView;
     }
 
